@@ -1,0 +1,72 @@
+column_aliases:
+  date:
+    - date
+    - Date
+    - Transaction Date
+    - Txn Date
+    - Dt
+
+  amount:
+    - amount
+    - Amount
+    - Value
+    - Txn Value
+    - Sum
+
+  type:
+    - type
+    - Type
+    - Transaction Type
+    - trans_type
+
+  category:
+    - category
+    - Category
+    - Expense Type
+    - Cat
+
+  description:
+    - description
+    - Description
+    - Notes
+    - Narration
+
+# ----------------------------
+
+category_normalization:
+  Marketing:
+    - Marketing
+    - Ads
+    - FB Ads
+    - Mktg
+
+  Salaries:
+    - Payroll
+    - Staff Cost
+    - Wages
+
+  Operations:
+    - Office
+    - Rent
+    - Admin
+
+# ----------------------------
+
+type_normalization:
+  income:
+    - income
+    - Income
+    - Credit
+    - IN
+    - Revenue
+    - Receipt
+    - CR
+
+  expense:
+    - expense
+    - Expense
+    - Debit
+    - OUT
+    - Payment
+    - Spend
+    - DR

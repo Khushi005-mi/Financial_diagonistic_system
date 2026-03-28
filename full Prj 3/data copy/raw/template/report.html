@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Finance Diagnostic Report</title>
+
+    <style>
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            background: #f4f6f8;
+            color: #333;
+            margin: 40px;
+            line-height: 1.6;
+        }
+
+        h1 {
+            color: #1f4e79;
+            border-bottom: 3px solid #1f4e79;
+            padding-bottom: 10px;
+        }
+
+        h2 {
+            margin-top: 40px;
+            color: #2e6da4;
+            border-left: 6px solid #2e6da4;
+            padding-left: 10px;
+        }
+
+        .card {
+            background: white;
+            padding: 20px;
+            margin-top: 15px;
+            border-radius: 8px;
+            box-shadow: 0px 2px 8px rgba(0,0,0,0.08);
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+        }
+
+        .metric {
+            background: #eef3f7;
+            padding: 15px;
+            border-radius: 6px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+        }
+
+        th {
+            background: #1f4e79;
+            color: white;
+            padding: 10px;
+            text-align: left;
+        }
+
+        td {
+            padding: 10px;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .insight {
+            border-left: 6px solid #ff9800;
+            background: #fff7e6;
+            padding: 15px;
+            margin-top: 15px;
+            border-radius: 6px;
+        }
+
+        .severity-high { border-color: #e53935; }
+        .severity-medium { border-color: #fb8c00; }
+        .severity-low { border-color: #43a047; }
+    </style>
+</head>
+
+<body>
+
+<h1>Finance Diagnostic Report</h1>
+<p><strong>Generated:</strong> {{ generated_date }}</p>
+
+<!-- SECTION 1: DATA QUALITY -->
+<h2>Data Quality Report</h2>
+<div class="card grid">
+    <div class="metric"><strong>Total Rows:</strong> {{ quality.total_rows }}</div>
+    <div class="metric"><strong>Missing Type %:</strong> {{ quality.missing_type_pct }}</div>
+    <div class="metric"><strong>Missing Category %:</strong> {{ quality.missing_category_pct }}</div>
+    <div class="metric"><strong>Duplicates:</strong> {{ quality.duplicate_count }}</div>
+    <div class="metric"><strong>Stop Condition:</strong> {{ quality.stop_condition_triggered }}</div>
+</div>
+
+<!-- SECTION 2: P&L SUMMARY -->
+<h2>P&L Summary</h2>
+<div class="card">
+    <table>
+        <tr>
+            <th>Total Revenue</th>
+            <th>Total Expenses</th>
+            <th>Net Profit</th>
+            <th>Profit Margin</th>
+        </tr>
+        <tr>
+            <td>{{ pnl.total_revenue }}</td>
+            <td>{{ pnl.total_expenses }}</td>
+            <td>{{ pnl.net_profit }}</td>
+            <td>{{ pnl.profit_margin }}</td>
+        </tr>
+    </table>
+</div>
+
+<!-- SECTION 3: REVENUE BREAKDOWN -->
+<h2>Revenue Breakdown</h2>
+<div class="card">
+    <table>
+        <tr>
+            <th>Month</th>
+            <th>Revenue</th>
+        </tr>
+        {% for month, value in revenue.items() %}
+        <tr>
+            <td>{{ month }}</td>
+            <td>{{ value }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+</div>
+
+<!-- SECTION 4: EXPENSE ANALYSIS -->
+<h2>Expense Analysis</h2>
+<div class="card">
+    <table>
+        <tr>
+            <th>Category</th>
+            <th>Total Spend</th>
+        </tr>
+        {% for category, value in expenses.items() %}
+        <tr>
+            <td>{{ category }}</td>
+            <td>{{ value }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+</div>
+
+<!-- SECTION 5: ACTIONABLE INSIGHTS -->
+<h2>Actionable Insights</h2>
+{% for insight in insights %}
+<div class="insight severity-{{ insight.severity }}">
+    <strong>Rule:</strong> {{ insight.rule }} <br>
+    <strong>Severity:</strong> {{ insight.severity }} <br>
+    <strong>Message:</strong> {{ insight.message }}
+
+    {% if insight.details %}
+    <ul>
+        {% for key, value in insight.details.items() %}
+        <li><strong>{{ key }}:</strong> {{ value }}</li>
+        {% endfor %}
+    </ul>
+    {% endif %}
+</div>
+{% endfor %}
+
+</body>
+</html>
